@@ -1,7 +1,7 @@
 package com.example.testapi.api;
 
-import com.example.testapi.model.EmployeeInput;
 import com.example.testapi.model.Employee;
+import com.example.testapi.model.EmployeeInput;
 import com.example.testapi.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,25 +27,25 @@ public class EmployeesApi {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getById(@PathVariable UUID id) {
+    public ResponseEntity<Employee> getById(@PathVariable("id") UUID id) {
         var employee = employeeService.getById(id);
         return new ResponseEntity<>(employee, OK);
     }
 
     @PostMapping
-    public ResponseEntity<Employee> create(@Valid EmployeeInput input) {
+    public ResponseEntity<Employee> create(@Valid @RequestBody EmployeeInput input) {
         var employee = employeeService.create(input);
         return new ResponseEntity<>(employee, CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> create(@PathVariable UUID id, @Valid EmployeeInput input) {
+    public ResponseEntity<Employee> update(@PathVariable("id") UUID id, @Valid @RequestBody EmployeeInput input) {
         var employee = employeeService.update(id, input);
         return new ResponseEntity<>(employee, OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> create(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         employeeService.delete(id);
         return new ResponseEntity<>(NO_CONTENT);
     }

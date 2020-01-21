@@ -23,6 +23,15 @@ public class TestUtils {
                 .build();
     }
 
+    public static EmployeeInput createInvalidEmployeeInput() {
+        return EmployeeInput.builder()
+                .age(105)
+                .name(FAKE.name().fullName())
+                .position(FAKE.company().profession())
+                .salary(FAKE.commerce().price().hashCode())
+                .build();
+    }
+
     public static EmployeeEntity createEmployeeEntity() {
         return EmployeeEntity.builder()
                 .id(UUID.randomUUID())

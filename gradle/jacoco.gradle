@@ -1,0 +1,47 @@
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+def jacocoSkipFiles = ['com/example/testapi/TestApiApplication.class',
+                       'com/example/testapi/entity/**',
+                       'com/example/testapi/model/**',
+                       'com/example/testapi/exception/**',
+                       'com/example/testapi/mapper/**',
+                       'com/example/testapi/validation/**'
+]
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html {
+            enabled true
+            destination new File("${buildDir}/reports/jacoco")
+        }
+    }
+    executionData(test)
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoSkipFiles)
+        })
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.9
+            }
+        }
+    }
+    executionData(test)
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoSkipFiles)
+        })
+    }
+}
+
+jacocoTestCoverageVerification.dependsOn jacocoTestReport
+tasks.check.dependsOn(jacocoTestCoverageVerification)

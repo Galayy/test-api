@@ -21,13 +21,6 @@ public class ExceptionHandling extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e, ex.getMessage(), new HttpHeaders(), e.getStatus(), request);
     }
 
-    @ExceptionHandler(InvalidInputDataException.class)
-    protected ResponseEntity<Object> handleIncorrectDataException(InvalidInputDataException e, WebRequest request) {
-        var ex = new UnexpectedError();
-        ex.setMessage(e.getMessage());
-        return handleExceptionInternal(e, ex, new HttpHeaders(), e.getStatus(), request);
-    }
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status,
